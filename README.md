@@ -12,6 +12,8 @@
 
 If you've found QDM useful for your research or projects, please show your support by ⭐ in this repo. Thanks!
 
+**News:** This paper was accepted to **CVPR 2026 Findings** on March 18, 2026.
+
 ---
 >Deep learning-based super-resolution (SR) methods often perform pixel-wise computations uniformly across entire images, even in homogeneous regions where high-resolution refinement is redundant. 
 We propose the Quadtree Diffusion Model (QDM), a region-adaptive diffusion framework that leverages a quadtree structure to selectively enhance detail-rich regions while reducing computations in homogeneous areas.
@@ -23,6 +25,7 @@ Furthermore, QDM outperforms or is comparable to state-of-the-art SR methods on 
 
 ---
 ## Update
+- **2026.03.18**: Paper accepted to CVPR 2026 Findings.
 - **2025.11.18**: Released a new arXiv version with tumor region reconstruction and real-world SR results. Refer to the paper for details. Use `print_roi_metrics.py` to replicate the tumor reconstruction results. Access results for all methods [here](https://drive.google.com/file/d/1IjmAPvqfPqdxwjRv0P9ulSdlMu4ZM_Ua/view?usp=sharing). Updated real-world SR with Gaussian-weighted patch-level aggregation as per [this reference](https://github.com/zsyOAOA/InvSR/blob/master/utils/util_image.py#L904) in `utils/util_image.py`.
 - **2025.03.18**: Release codes & pretrained checkpoints, and update README.
 - **2025.03.14**: Create this repo.
