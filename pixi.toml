@@ -1,0 +1,31 @@
+[workspace]
+authors = ["Kỳ <40734986+itskyf@users.noreply.github.com>"]
+channels = ["conda-forge"]
+name = "QDM"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+inference = "python inference.py"
+
+[system-requirements]
+cuda = "13"
+
+[dependencies]
+pytorch-gpu = "*"
+cuda-version = "13.*"
+einops = ">=0.8.2,<0.9"
+omegaconf = ">=2.3.0,<3"
+loguru = ">=0.7.3,<0.8"
+scikit-image = ">=0.26.0,<0.27"
+scipy = ">=1.17.1,<2"
+pillow = ">=12.2.0,<13"
+py-opencv = ">=4.13.0,<5"
+torchvision = ">=0.26.0,<0.27"
+matplotlib = ">=3.10.9,<4"
+datasets = ">=4.8.5,<5"
+albumentations = ">=2.0.8,<3"
+timm = ">=1.0.26,<2"
+
+[pypi-dependencies]
+simsimd = ">=6.5.16, <7"

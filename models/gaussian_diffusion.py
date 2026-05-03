@@ -444,7 +444,7 @@ class GaussianDiffusion:
             # Lazy import so that we don't depend on tqdm.
             from tqdm.auto import tqdm
 
-            indices = tqdm(indices)
+            indices = tqdm(indices, leave=False)
 
         for i in indices:
             t = th.tensor([i] * y.shape[0], device=device)
@@ -959,7 +959,7 @@ class GaussianDiffusionDDPM:
             # Lazy import so that we don't depend on tqdm.
             from tqdm.auto import tqdm
 
-            indices = tqdm(indices)
+            indices = tqdm(indices, leave=False)
 
         for i in indices:
             t = th.tensor([i] * shape[0], device=device)
@@ -1122,7 +1122,7 @@ class GaussianDiffusionDDPM:
             # Lazy import so that we don't depend on tqdm.
             from tqdm.auto import tqdm
 
-            indices = tqdm(indices)
+            indices = tqdm(indices, leave=False)
 
         for i in indices:
             t = th.tensor([i] * shape[0], device=device).long()
@@ -1482,7 +1482,7 @@ class MaskedGaussianDiffusion(GaussianDiffusion):
             # Lazy import so that we don't depend on tqdm.
             from tqdm.auto import tqdm
 
-            indices = tqdm(indices)
+            indices = tqdm(indices, leave=False)
 
         for i in indices:
             t = th.tensor([i] * y.shape[0], device=device)

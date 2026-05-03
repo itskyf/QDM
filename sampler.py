@@ -19,6 +19,7 @@ import torch.nn.functional as F
 import torch.distributed as dist
 import torch.multiprocessing as mp
 import torchvision.utils as vutils
+from tqdm import tqdm
 
 
 from dataset import BaseData
@@ -197,7 +198,7 @@ class QDMSampler(BaseSampler):
                             denoised_fn=None,
                             device=f"cuda:{self.rank}",
                             model_kwargs=model_kwargs,
-                            progress=False,
+                            progress=self.rank == 0,
                         )    # This has included the decoding for latent space
             if flag_pad:
                 results = results[:, :, :ori_h*self.sf, :ori_w*self.sf]
@@ -223,7 +224,7 @@ class QDMSampler(BaseSampler):
                         clip_denoised=(self.autoencoder is None),
                         model_kwargs=model_kwargs,
                         device=f"cuda:{self.rank}",
-                        progress=False,
+                        progress=self.rank == 0,
                         ):
                 sample_decode = {}
                 if num_iters in indices:
@@ -254,7 +255,7 @@ class QDMSampler(BaseSampler):
             Output:
                 im_sr: h x w x c, numpy array, [0,1], RGB
             '''
-            context = torch.cuda.amp.autocast if self.use_amp else nullcontext
+            context = (lambda: torch.amp.autocast('cuda')) if self.use_amp else nullcontext
             if im_lq_tensor.shape[2] > self.chop_size or im_lq_tensor.shape[3] > self.chop_size:
                 im_spliter = ImageSpliterTh(
                         im_lq_tensor,
@@ -263,7 +264,7 @@ class QDMSampler(BaseSampler):
                         sf=self.configs.inference.sf,
                         extra_bs=self.chop_bs,
                         )
-                for im_lq_pch, index_infos in im_spliter:
+                for im_lq_pch, index_infos in tqdm(im_spliter, desc="Processing patches", leave=False, disable=self.rank != 0):
                     with context():
                         im_sr_pch = self.sample_func(
                                 im_lq_pch,
@@ -343,7 +344,7 @@ class QDMSampler(BaseSampler):
             Output:
                 im_sr: h x w x c, numpy array, [0,1], RGB
             '''
-            context = torch.cuda.amp.autocast if self.use_amp else nullcontext
+            context = (lambda: torch.amp.autocast('cuda')) if self.use_amp else nullcontext
             assert im_lq_tensor.shape[2] == self.chop_size and im_lq_tensor.shape[3] == self.chop_size, "Only support chop_size input for now."
             
             with context():
